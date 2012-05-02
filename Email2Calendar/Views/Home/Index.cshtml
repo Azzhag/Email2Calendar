@@ -4,20 +4,116 @@
 }
 
 <div class="row">
-    <div class="span12">
-        <div class="hero-unit">
-            <h2>Email2Calendar</h2>
-            <p>A test service that will attempt to determine who provides your email service.</p>
-        </div>
-        <div class="span7 offset2">
-            @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "well form-inline" }))
-            {
-<!--            <form class="well form-inline" method="post" action="@Url.Action("Index","Home")" >-->
-                <span class="help-block">Enter your email address (e.g. myname@example.com) and we will try to figure who provides your service...</span>
-                <label>Email address:</label>
-                <input name="emailAddress" type="text" class="input-large" placeholder="email@sample.com" />
-                <button type="submit" class="btn btn-primary btn-large">Submit</button>
-            }
+    <div class="span6 offset3">
+        <form id="addressform" class="well form-inline" method="get" action="">
+            <span class="help-block">Enter your email address (e.g. myname@example.com) and we will try to figure who provides your service...</span>
+            <label>Email address:</label>
+            <input id="address" name="address" type="text" class="input-large" placeholder="email@sample.com" />
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    
+    <div id="successpane" class="span6 offset3">
+        <div class="alert alert-success">
+            <h2>We think we figured it out!</h2>
+            <p><strong>Your provider is:</strong> <span id="provider"></span></p>
         </div>
     </div>
+    
+    <div id="errorpane" class="span6 offset3">
+        <div class="alert alert-error">
+            <h2>We failed!</h2>
+            <p><strong>We could not figure out who your provider is. Sorry!</strong></p>
+            <p><code><span id="failurereason"></span></code></p>
+        </div>
+    </div>
+
+    <div id="feedbackpane" class="span6 offset3">
+        <div class="">
+            <form id="feedbackform" class="well form-inline" method="post" action="">
+                <span class="help-block">If we were wrong, or couldn't figure it out, would you please help us by submitting who your provider is below?</span>
+                <label>Enter the name of the company or service that provides your email/calendar:</label>
+                <input id="feedback" name="feedback" type="text" class="input-medium" placeholder="provider of your email" />
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="detailspane" class="span6 offset3">
+        <div class="well" id="moreinfo">
+        </div>
+    </div>
+
 </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#successpane").hide();
+        $("#errorpane").hide();
+        $("#feedbackpane").hide();
+
+        $("#addressform").submit(function (e) {
+            e.preventDefault();
+
+            $("#successpane").hide();
+            $("#errorpane").hide();
+            $("#feedbackpane").hide();
+            $("#moreinfo").html("");
+
+            $.ajax({
+                type: "GET",
+                data: $(this).serialize(),
+                cache: false,
+                url: "/Home/GetProvider",
+                success: function (data) {
+                    if (data.FailureReason != null) {
+                        $("#failurereason").html(data.FailureReason);
+
+                        $("#successpane").hide();
+                        $("#errorpane").show();
+                        $("#feedbackpane").show();
+                    } else {
+                        $("#provider").html(data.Provider);
+                        $("#errorpane").hide();
+                        $("#successpane").show();
+                        $("#feedbackpane").show();
+                    }
+                    if (data.MxRecords.length > 0) {
+                        $("#moreinfo").html("<h3>Technical Details</h3><p>MX Records Found</p><div id=\"mxrecords\"></div>");
+                        $.each(data.MxRecords, function (n, elem) {
+                            $("#mxrecords").append("<p><code>" + elem.Name + " : " + elem.ExchangeDomainName + "</code></p>");
+                        });
+                    }
+                },
+                error: function (data) {
+                    $("#failurereason").html("Blarg! The something bad happened in the network.");
+                    $("#successpane").hide();
+                    $("#errorpane").show();
+                    $("#feedbackpane").hide();
+                }
+            });
+        });
+
+
+        $("#feedbackform").submit(function (e) {
+            e.preventDefault();
+            var d = {
+                'EmailAddress': $("#address").val(),
+                'Provider': $("#provider").text(),
+                'RealProvider': $("#realprovider").val()
+            };
+
+            $.ajax({
+                type: "POST",
+                data: d,
+                cache: false,
+                url: "/Home/AddFeedback",
+                success: function (data) {
+                    //$("#results").html(data.Provider);
+                }
+            });
+        });
+
+    });   
+</script>

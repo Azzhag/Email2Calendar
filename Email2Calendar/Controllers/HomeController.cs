@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Email2Calendar.Services;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+
 
 namespace Email2Calendar.Controllers
 {
@@ -18,32 +20,15 @@ namespace Email2Calendar.Controllers
             return View();
         }
 
-        //
-        // PUT: /Home/           
+        public JsonResult GetProvider(string address) {
+            var e2c = new Email2Provider(address);
+            e2c.Resolve();
+            return Json(e2c, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
-        public ActionResult Index(string emailAddress) {
-
-            var e2c = new Email2Provider(emailAddress);
-            if (e2c.Resolve()) {
-                string json = Newtonsoft.Json.Serialization
-            }
-            else {
-                RedirectToAction("Failure", "Home", new { address = emailAddress, reason = e2c.FailureReason });                
-            }
-
-
-            return View();
-        }
-
-        public ActionResult Result(string address, string provider ) {
-            return View();
-            
-        }
-
-        public ActionResult Failure(string address, string reason)
-        {
-            return View();
-
+        public JsonResult AddFeedback(string emailAddress, string provider, string realProvider) {
+            return Json(null);
         }
     }
 }

@@ -28,9 +28,17 @@ namespace Email2Calendar
             );
 
             routes.MapRoute(
-                "Result", // Route name
+                "GetProvider", // Route name
                 "{controller}/{action}/{address}", // URL with parameters
-                new { controller = "Home", action = "Result", address = UrlParameter.Optional, provider = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Home", action = "GetProvider", address = UrlParameter.Optional } // Parameter defaults
+            );
+
+            routes.MapRoute(
+                "AddFeedback", // Route name
+                "{controller}/{action}/{address}", // URL with parameters
+                new { controller = "Home", action = "GetProvider", address = UrlParameter.Optional, 
+                    provider = UrlParameter.Optional, 
+                    realProvider = UrlParameter.Optional } // Parameter defaults
             );
 
         }
