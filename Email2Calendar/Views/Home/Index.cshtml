@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="span12">
+        <div class="hero-unit">
+            <h2>Email2Calendar</h2>
+            <p>A test service that will attempt to determine who provides your email service.</p>
+        </div>
+        <div class="span7 offset2">
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "well form-inline" }))
+            {
+<!--            <form class="well form-inline" method="post" action="@Url.Action("Index","Home")" >-->
+                <span class="help-block">Enter your email address (e.g. myname@example.com) and we will try to figure who provides your service...</span>
+                <label>Email address:</label>
+                <input name="emailAddress" type="text" class="input-large" placeholder="email@sample.com" />
+                <button type="submit" class="btn btn-primary btn-large">Submit</button>
+            }
+        </div>
+    </div>
+</div>
