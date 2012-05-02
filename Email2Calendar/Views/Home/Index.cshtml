@@ -3,35 +3,37 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
-    <div class="span6 offset3">
-        <form id="addressform" class="well form-inline" method="get" action="">
+<div class="row-fluid">
+    <div class="span5">
+        <form id="addressform" class="form-inline" style="min-height: 600px" method="get" action="">
             <span class="help-block">Enter your email address (e.g. myname@example.com) and we will try to figure who provides your service...</span>
             <label>Email address:</label>
-            <input id="address" name="address" type="text" class="input-large" placeholder="email@sample.com" />
+            <input id="address" name="address" type="text" class="input-medium" placeholder="email@sample.com" />
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
     
-    <div id="successpane" class="span6 offset3">
+    <div id="successpane" class="span7">
         <div class="alert alert-success">
             <h2>We think we figured it out!</h2>
             <p><strong>Your provider is:</strong> <span id="provider"></span></p>
+            <p><span id="clue"></span></p>
         </div>
     </div>
     
-    <div id="errorpane" class="span6 offset3">
+    <div id="errorpane" class="span7">
         <div class="alert alert-error">
             <h2>We failed!</h2>
             <p><strong>We could not figure out who your provider is. Sorry!</strong></p>
-            <p><code><span id="failurereason"></span></code></p>
+            <h3>Reason:</h3>
+            <p><span id="failurereason"></span></p>
         </div>
     </div>
 
-    <div id="feedbackpane" class="span6 offset3">
+    <div id="feedbackpane" class="span7">
         <div class="">
             <form id="feedbackform" class="well form-inline" method="post" action="">
-                <span class="help-block">If we were wrong, or couldn't figure it out, would you please help us by submitting who your provider is below?</span>
+                <span class="help-block">If we were wrong, or couldn't figure it out, please help us by telling us your provider?</span>
                 <label>Enter the name of the company or service that provides your email/calendar:</label>
                 <input id="feedback" name="feedback" type="text" class="input-medium" placeholder="provider of your email" />
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -39,7 +41,7 @@
         </div>
     </div>
     
-    <div id="detailspane" class="span6 offset3">
+    <div id="detailspane" class="span7">
         <div class="well" id="moreinfo">
         </div>
     </div>
@@ -48,10 +50,35 @@
 
 
 <script type="text/javascript">
+    $(".collapse").collapse();
+
+    jQuery.fn.center = function() {
+        this.css("position", "absolute");
+        this.css("top", (($(window).height() - this.outerHeight()) / 2) +
+            $(window).scrollTop() + "px");
+        this.css("left", (($(window).width() - this.outerWidth()) / 2) +
+            $(window).scrollLeft() + "px");
+        return this;
+    };
+
     $(document).ready(function () {
+        // Setup the ajax indicator
+        $('body').append('<div id="ajaxBusy"><p><img src="Content/ajax-loader.gif"></p></div>');
+        $("#ajaxBusy").center();
+        $("#ajaxBusy").hide();
+
+        // Ajax activity indicator bound to ajax start/stop document events
+        $(document).ajaxStart(function () {
+            //$('#ajaxBusy').center();
+            $('#ajaxBusy').show();
+        }).ajaxStop(function () {
+            $('#ajaxBusy').hide();
+        });
+
         $("#successpane").hide();
         $("#errorpane").hide();
         $("#feedbackpane").hide();
+        $("#detailspane").hide();
 
         $("#addressform").submit(function (e) {
             e.preventDefault();
@@ -59,7 +86,7 @@
             $("#successpane").hide();
             $("#errorpane").hide();
             $("#feedbackpane").hide();
-            $("#moreinfo").html("");
+            $("#detailspane").hide();
 
             $.ajax({
                 type: "GET",
@@ -67,6 +94,7 @@
                 cache: false,
                 url: "/Home/GetProvider",
                 success: function (data) {
+                    $("#moreinfo").html("");
                     if (data.FailureReason != null) {
                         $("#failurereason").html(data.FailureReason);
 
@@ -75,14 +103,22 @@
                         $("#feedbackpane").show();
                     } else {
                         $("#provider").html(data.Provider);
+                        $("#clue").html(data.Clue);
                         $("#errorpane").hide();
                         $("#successpane").show();
                         $("#feedbackpane").show();
                     }
-                    if (data.MxRecords.length > 0) {
-                        $("#moreinfo").html("<h3>Technical Details</h3><p>MX Records Found</p><div id=\"mxrecords\"></div>");
-                        $.each(data.MxRecords, function (n, elem) {
-                            $("#mxrecords").append("<p><code>" + elem.Name + " : " + elem.ExchangeDomainName + "</code></p>");
+                    if (data.Details.length > 0) {
+                        $("#detailspane").show();
+                        $("#moreinfo").append("<h3>Technical Details</h3><p>MX Records:</p>");
+                        $.each(data.Details, function (n, elem) {
+                            $("#moreinfo").append("<div id=\"ehlo-group" + n + "\><code></code></div>")
+                                .append("<p>EHLO Response from <code>" + elem.MxRecord.Name + " : " + elem.MxRecord.ExchangeDomainName + "</code></p><pre id=\"ehlo" + n + "\"></pre>");
+
+                            //$("#ehlo-group" + n).append("<p>EHLO Response</p><pre id=\"ehlo" + n + "\"></pre>");
+                            $.each(elem.EhloResponses, function (m, resp) {
+                                $("#ehlo" + n).append(resp + "\r\n");
+                            });
                         });
                     }
                 },
@@ -115,5 +151,6 @@
             });
         });
 
-    });   
+    });
+
 </script>
