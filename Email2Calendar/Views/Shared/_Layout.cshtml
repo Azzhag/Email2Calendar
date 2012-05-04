@@ -7,6 +7,18 @@
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/modernizr-1.7.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/bootstrap.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-4945529-8']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
 </head>
 
     <body>
@@ -15,7 +27,7 @@
                 <div class="span12">
                     <div class="well">
                         <h2>Email2Calendar</h2>
-                        <p>A test service that will attempt to determine who provides your email service.</p>
+                        <p>A test service that will attempt to determine who provides your online calendar service.</p>
                     </div>
                 </div>
             </div>
@@ -23,13 +35,13 @@
             @RenderBody()
         
             <div class="row"> <!-- footer -->
-                <div class="span4 footer" style="text-align:left">
+                <div class="span4" style="text-align:left">
                 &nbsp;
                 </div>
-                <div class="span4 footer" style="text-align:center">
-                    BogusLabs &copy; 2012
+                <div class="span4" style="text-align:center">
+                    <a href="http://www.bizlogr.com">BizLogr, Inc.</a> &copy; 2012
                 </div>
-                <div class="span4 footer" style="text-align:right">
+                <div class="span4" style="text-align:right">
                 </div>
             </div> <!-- footer -->
         </div>
