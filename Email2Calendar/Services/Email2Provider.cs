@@ -99,7 +99,8 @@ namespace Email2Calendar.Services
                                         tls = true;
                                     }
 
-                                    if (tls || line.ToUpper().StartsWith("250 "))
+                                    // If TLS or erro (5xx) or end (250 with a space) we're done
+                                    if (tls || line.StartsWith("5") || line.ToUpper().StartsWith("250 "))
                                     {
                                         WriteLine(writer, "QUIT");
                                         writer.Flush();
