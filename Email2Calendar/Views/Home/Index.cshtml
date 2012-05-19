@@ -6,19 +6,17 @@
 <div class="row-fluid">
     <div class="span5">
         <form id="addressform" class="form-inline" style="min-height: 600px" method="get" action="">
-            <span class="help-block">Enter your email address (e.g. myname@example.com) and we will try to figure who provides your service...</span>
+            <span class="help-block">Enter your email address and we will try to figure who provides your calendar service...</span>
             <label>Email address:</label>
             <input id="address" name="address" type="text" class="input-medium" placeholder="email@sample.com" />
             <button type="submit" class="btn btn-primary">Submit</button>
             <br/>
             <br/>
-            <br/>
-            <h4>What's implemented?</h4>
-            <ul>
-            <li>Phase 1: Use unathenticated (no password). Probe SMTP servers identified by DNS MX records (implemented).</li>
-            <li>Phase 2: Ask for password and attempt Exchange Autodiscover (not yet implemented).</li>
-            <li>Phase 3: Ask for password and attempt calendar protocol (CalDAV) access, etc... (not yet implemented).</li>
-            </ul>
+            <p style="color:grey;"><strong>Privacy Policy:</strong> When you enter your email address we store it in a logfile along with the information returned by the underlying email system. 
+                We will not use this information for anything other than figuring out how to improve how this service works. 
+                We will not send you email, nor will we provide your email address to any other parties.</p>
+            <p style="color:grey;">This project is open source, licensed under the MIT License. You can find the full source on <a href="https://github.com/tig/Email2Calendar">GitHub</a>.</p>
+
 
         </form>
     </div>
@@ -43,11 +41,11 @@
     <div id="feedbackpane" class="span7">
         <div class="">
             <form id="feedbackform" class="well form-inline" method="post" action="">
-                <h2>Please Help Us Do Better</h2>
-                <span class="help-block">If we were wrong, or couldn't figure it out, please help us by telling us your provider?</span>
+                <h2>Please Help Us Improve This</h2>
+                <span class="help-block">If we were wrong, or couldn't figure it out, please help us by telling us your provider.</span>
                 <label>Enter the name of the company or service that provides your email/calendar:</label>
                 <input id="feedback" name="feedback" type="text" class="input-medium" placeholder="provider of your email" />
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-warning">Submit</button>
             </form>
         </div>
     </div>

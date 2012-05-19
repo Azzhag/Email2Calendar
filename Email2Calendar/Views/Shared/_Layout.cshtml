@@ -23,11 +23,25 @@
 
     <body>
         <div class="container">
+            <div class="navbar">
+              <div class="navbar-inner">
+                <div class="container">
+                    <a class="brand" href="#">
+                      Email2Calendar - Prototype to determine who provides your online calendar service
+                    </a> 
+               </div>
+              </div>
+            </div>
+ 
             <div class="row">
                 <div class="span12">
                     <div class="well">
-                        <h2>Email2Calendar</h2>
-                        <p>A test service that will attempt to determine who provides your online calendar service.</p>
+                        <p><strong>Email2Calendar</strong> is a little experiement to see how good a job we can do automatically discovering a users' online calendar provider.</p>
+                        <p>Please give it a try!</p>
+                        <p>The current implementation is limited to what we refer to as the 'unathenticated' scenario. Ideally users' would not have to enter a password. </p>
+                        <p>For many users it appears this unathenticated scenario works well.</p>
+                        <p>Future work will use techniques that require users to authenticate (e.g. Exchange Autodiscover).</p>
+                        <p><strong>We need your help!</strong> If the service fails to identify your email provider, please submit the name of your actual calendar provider (or any other information that might be helpful).</p>
                     </div>
                 </div>
             </div>
@@ -36,7 +50,7 @@
         
             <div class="row"> <!-- footer -->
                 <div class="span4" style="text-align:left">
-                &nbsp;
+                    &nbsp;
                 </div>
                 <div class="span4" style="text-align:center">
                     <a href="http://www.bizlogr.com">BizLogr, Inc.</a> &copy; 2012

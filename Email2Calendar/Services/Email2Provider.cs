@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
-using System.Net.Security;
 using System.Net.Sockets;
-using System.Threading;
 using ARSoft.Tools.Net.Dns;
 
 namespace Email2Calendar.Services

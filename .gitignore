@@ -30,6 +30,7 @@ _UpgradeReport_Files/
 bin/
 obj/
 TestResults/
+Email2CalendarLogs/
 ###################
 # Web publish log #
 ###################
