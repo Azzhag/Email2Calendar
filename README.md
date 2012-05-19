@@ -2,7 +2,7 @@
 
 A test app that takes an email address and tells you the calendar provider behind it.
 
-Copyright 2012 BizLogr, Inc.
+Copyright 2012 [BizLogr, Inc] (http://www.bizlogr.com).
 
 Licensed under the [MIT License] (http://www.opensource.org/licenses/mit-license.php).
 
