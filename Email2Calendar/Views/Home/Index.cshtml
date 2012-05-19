@@ -10,6 +10,16 @@
             <label>Email address:</label>
             <input id="address" name="address" type="text" class="input-medium" placeholder="email@sample.com" />
             <button type="submit" class="btn btn-primary">Submit</button>
+            <br/>
+            <br/>
+            <br/>
+            <h4>What's implemented?</h4>
+            <ul>
+            <li>Phase 1: Use unathenticated (no password). Probe SMTP servers identified by DNS MX records (implemented).</li>
+            <li>Phase 2: Ask for password and attempt Exchange Autodiscover (not yet implemented).</li>
+            <li>Phase 3: Ask for password and attempt calendar protocol (CalDAV) access, etc... (not yet implemented).</li>
+            </ul>
+
         </form>
     </div>
     
@@ -33,6 +43,7 @@
     <div id="feedbackpane" class="span7">
         <div class="">
             <form id="feedbackform" class="well form-inline" method="post" action="">
+                <h2>Please Help Us Do Better</h2>
                 <span class="help-block">If we were wrong, or couldn't figure it out, please help us by telling us your provider?</span>
                 <label>Enter the name of the company or service that provides your email/calendar:</label>
                 <input id="feedback" name="feedback" type="text" class="input-medium" placeholder="provider of your email" />

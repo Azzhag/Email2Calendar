@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading;
-using System.Web;
 using System.Web.Mvc;
-using Elmah;
 using Email2Calendar.Services;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using log4net;
 
 namespace Email2Calendar.Controllers
