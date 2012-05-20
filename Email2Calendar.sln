@@ -1,9 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 11
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Email2Calendar", "Email2Calendar\Email2Calendar.csproj", "{51028B0A-183B-46BB-BCE1-ADC322F4817A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{57DCD814-BCE1-4678-B826-AF70627C3791}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4C1A5C24-5BBE-471E-96E9-9DE13C497558}"
+	ProjectSection(SolutionItems) = preProject
+		Email2Calendar.vsmdi = Email2Calendar.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Email2Calendar.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -13,6 +25,10 @@ Global
 		{51028B0A-183B-46BB-BCE1-ADC322F4817A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51028B0A-183B-46BB-BCE1-ADC322F4817A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51028B0A-183B-46BB-BCE1-ADC322F4817A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57DCD814-BCE1-4678-B826-AF70627C3791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57DCD814-BCE1-4678-B826-AF70627C3791}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57DCD814-BCE1-4678-B826-AF70627C3791}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57DCD814-BCE1-4678-B826-AF70627C3791}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
