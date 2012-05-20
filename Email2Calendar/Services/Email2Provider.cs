@@ -24,6 +24,11 @@ namespace Email2Calendar.Services
             {"mobile.me",                   "Apple MobileMe/iCloud"}
         };
 
+        private static readonly Dictionary<string, string> SmtpCapabilities = new Dictionary<string, string> {
+            {"XEXCH50",                     "Microsoft Exchange"}, // http://technet.microsoft.com/en-us/library/dd535395(v=EXCHG.80).aspx
+            {"X-EXPS",                      "Microsoft Exchange"}  // http://technet.microsoft.com/en-us/library/dd535395(v=EXCHG.80).aspx
+        };
+
         public class MxDetails
         {
             public MxRecord MxRecord;
@@ -50,6 +55,16 @@ namespace Email2Calendar.Services
                 found = DomainProviders.TryGetValue(key.ToLower(), out provider);
             }
             return found;
+        }
+
+        static bool TryGetProviderFromSmtpCapability(string ehloResponse, out string provider)
+        {
+            provider = SmtpCapabilities
+                .Where(c => ehloResponse.Contains(c.Key))
+                .Select(c => c.Value)
+                .SingleOrDefault();
+
+            return provider != null;
         }
 
         private void WriteLine(StreamWriter writer, string cmd)
@@ -178,6 +193,13 @@ namespace Email2Calendar.Services
                     if (TryGetProvider(ehlo, out temp)) {
                         found = true;
                         Clue = "We figured this out by looking at the domain name your SMTP server claims in its EHLO response, which was <code>" + ehlo + "</code>.";
+                        Provider = temp;
+                        break;
+                    }
+
+                    if (TryGetProviderFromSmtpCapability(ehlo, out temp)) {
+                        found = true;
+                        Clue = "We figured this out because your SMTP server claims in its EHLO response to support <code>" + ehlo + "</code>, which is a proprietary extension.";
                         Provider = temp;
                         break;
                     }
