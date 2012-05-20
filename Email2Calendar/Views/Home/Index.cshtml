@@ -33,6 +33,7 @@
         <div class="alert alert-error">
             <h2>We failed!</h2>
             <p><strong>We could not figure out who your provider is. Sorry!</strong></p>
+            <p>Please tell us what your provider really is below. It will help us immensely. Thanks.</p>
             <h3>Reason:</h3>
             <p><span id="failurereason"></span></p>
         </div>
@@ -40,12 +41,58 @@
 
     <div id="feedbackpane" class="span7">
         <div class="">
-            <form id="feedbackform" class="well form-inline" method="post" action="">
+            <form id="feedbackform" class="well" method="post" action="">
+                <fieldset>
                 <h2>Please Help Us Improve This</h2>
                 <span class="help-block">If we were wrong, or couldn't figure it out, please help us by telling us your provider.</span>
-                <label>Enter the name of the company or service that provides your email/calendar:</label>
-                <input id="feedback" name="feedback" type="text" class="input-medium" placeholder="provider of your email" />
+                <div class="control-group">
+                    <div class="controls">
+
+                        <label class="radio">
+                            <input type="radio" name="optionsRadios" id="optionExchange" value="Exchange" class="radios"/>
+                            Microsoft Exchange or Office365
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="optionsRadios" id="optionHotmail" value="Hotmail" class="radios"/>
+                            Windows Live/Hotmail
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="optionsRadios"id="optionGoogle" value="Google" class="radios"/>
+                            Google
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="optionsRadios" id="optionAOL" value="AOL" class="radios"/>
+                            AOL
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="optionsRadios" id="optionYahoo" value="Yahoo" class="radios"/>
+                            Yahoo!
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="optionsRadios" id="optionApple" value="Apple" class="radios"/>
+                            Apple iCloud or MobileMe
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="optionsRadios" id="optionIMAP" value="IMAP" class="radios"/>
+                            Generic IMAP
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="optionsRadios" id="optionDesktop" value="Desktop" class="radios"/>
+                            I don't use an online service for my calendar; I use a desktop app.
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="optionsRadios" id="optionNoIdea" value="NoIdea" class="radios"/>
+                            I have no idea. 
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="optionsRadios" id="optionOther" value="Other" checked="checked" class="radios"/>
+                            None of the above (enter something that will help us below, please). 
+                        </label>
+                    </div>
+                </div>
+                <input id="feedback" name="feedback" type="text" class="input-medium" placeholder="enter your calendar provider" style="width:70%" />
                 <button type="submit" class="btn btn-warning">Submit</button>
+                </fieldset>
             </form>
         </div>
     </div>
@@ -150,10 +197,16 @@
 
         $("#feedbackform").submit(function (e) {
             e.preventDefault();
+
+            var selectedValue = $(".radios:checked").val();
+
+            if (selectedValue == "Other")
+                selectedValue = $("#feedback").val();
+
             var d = {
                 'EmailAddress': $("#address").val(),
                 'Provider': $("#provider").text(),
-                'RealProvider': $("#feedback").val()
+                'RealProvider': selectedValue
             };
 
             $.ajax({
@@ -163,6 +216,7 @@
                 url: "/Home/AddFeedback",
                 success: function (data) {
                     $("#feedback").val('');
+                    $("#optionOther").attr('checked', true);
                     $("#thankyou").show();
                 }
             });
